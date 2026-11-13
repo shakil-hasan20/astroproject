@@ -1,0 +1,47 @@
+---
+import type { Settings } from '../data/fallback';
+interface Props { s: Settings }
+const { s } = Astro.props;
+const wa = s.whatsapp?.replace(/\D/g, '');
+const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT as string | undefined;
+---
+
+<section class="contact" id="contact">
+  <div class="c-info">
+    {s.available && <span class="pill"><i aria-hidden="true"></i>Available for new projects</span>}
+    <h2>{s.contactTitle}</h2>
+    <p>{s.contactText}</p>
+    <div class="c-actions">
+      {wa && <a class="btn" href={`https://wa.me/${wa}`} target="_blank" rel="noopener noreferrer">Let’s have a call</a>}
+      {s.profiles.map((p) => (
+        <a class="btn mkt" data-m={p.label.toLowerCase()} href={p.url} target="_blank" rel="noopener noreferrer"><b>{p.label}</b> <span aria-hidden="true">↗</span></a>
+      ))}
+    </div>
+    <div class="chips">
+      {wa && (
+        <a class="chip" href={`https://wa.me/${wa}`} target="_blank" rel="noopener noreferrer">
+          <span><small>WhatsApp</small><b>+{wa}</b></span>
+        </a>
+      )}
+      {s.email && (
+        <a class="chip" href={`mailto:${s.email}`}>
+          <span><small>Email</small><b>{s.email}</b></span>
+        </a>
+      )}
+    </div>
+  </div>
+
+  <form class="c-form" id="contactForm" data-wa={wa || undefined} data-mail={s.email} data-name={s.name} data-endpoint={endpoint || undefined}>
+    <label>Your name*<input name="name" required autocomplete="name" placeholder="Your full name" /></label>
+    <div class="row2">
+      <label>Email*<input name="email" type="email" required autocomplete="email" placeholder="you@example.com" /></label>
+      <label>Phone<input name="phone" type="tel" autocomplete="tel" placeholder="+1 555 000 000" /></label>
+    </div>
+    <label class="grow">Project details*<textarea name="message" required placeholder="Tell me what you’d like to build…"></textarea></label>
+    <button class="btn submit" type="submit">Send message <span aria-hidden="true">→</span></button>
+    <p class="note" id="formNote" aria-live="polite">
+      {endpoint ? 'I’ll reply by email as soon as I can.' : wa ? 'Opens WhatsApp with your message ready to send.' : 'Opens your email app with your message ready to send.'}
+      {wa && s.email && <> <a href={`mailto:${s.email}`} id="mailAlt">Prefer email?</a></>}
+    </p>
+  </form>
+</section>

@@ -1,0 +1,28 @@
+---
+import { img } from '../lib/sanity';
+import type { Settings } from '../data/fallback';
+interface Props { s: Settings }
+const { s } = Astro.props;
+const bg = img(s.heroUrl, 1800);
+---
+
+<div class="card hero" style={bg ? `--hero-img:url('${bg}')` : undefined} data-has-img={bg ? '' : undefined}>
+  {s.available && <div class="avail"><i aria-hidden="true"></i>{s.availabilityText}</div>}
+  <h1>{s.headline}</h1>
+  <p class="sub">{s.subheadline}</p>
+  <div class="hero-btns">
+    <a class="btn ghost" href="#contact">Get in contact</a>
+    {s.profiles.map((p) => (
+      <a class="btn mkt" data-m={p.label.toLowerCase()} href={p.url} target="_blank" rel="noopener noreferrer">Hire on <b>{p.label}</b> <span aria-hidden="true">↗</span></a>
+    ))}
+  </div>
+  {s.toolLogos && s.toolLogos.length > 0 ? (
+    <ul class="tool-logos" aria-label="Tools I use">
+      {s.toolLogos.map((t) => <li><img src={img(t.url, 200)} alt={t.name} style={`height:${t.height ?? 1.5}em`} loading="lazy" /></li>)}
+    </ul>
+  ) : s.tools.length > 0 && (
+    <ul class="tools" aria-label="Tools I use">
+      {s.tools.map((t) => <li>{t}</li>)}
+    </ul>
+  )}
+</div>

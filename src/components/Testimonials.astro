@@ -1,0 +1,42 @@
+---
+import type { SiteData } from '../data/fallback';
+interface Props { items: SiteData['testimonials']; profiles: { label: string; url: string }[] }
+const { items, profiles } = Astro.props;
+---
+
+{items.length > 0 && (
+  <section class="t-wrap" id="reviews">
+    <h2>Testimonials</h2>
+    <div class="slider" role="region" aria-roledescription="carousel" aria-label="Client reviews">
+      <div class="track" id="track" tabindex="0">
+        {items.map((t) => (
+          <div class="slide">
+            <figure class="tcard">
+              <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+              <blockquote>{t.quote}</blockquote>
+              <figcaption>
+                <strong>{t.name}</strong>
+                {t.location && <em>{t.location}</em>}
+              </figcaption>
+              <span class="q" aria-hidden="true">”</span>
+            </figure>
+          </div>
+        ))}
+      </div>
+      {items.length > 1 && (
+        <div class="s-ctrl">
+          <button class="s-btn" id="prev" type="button" aria-label="Previous review">←</button>
+          <div class="dots" id="dots"></div>
+          <button class="s-btn" id="next" type="button" aria-label="Next review">→</button>
+        </div>
+      )}
+    </div>
+    {profiles.length > 0 && (
+      <p class="allrev">
+        Read more reviews on
+        {profiles.map((p, i) => (<><a data-m={p.label.toLowerCase()} href={p.url} target="_blank" rel="noopener noreferrer">{p.label}</a>{i < profiles.length - 1 ? ' and ' : ''}</>))}
+        ↗
+      </p>
+    )}
+  </section>
+)}

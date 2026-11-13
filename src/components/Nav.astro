@@ -1,0 +1,25 @@
+---
+interface Props {
+  name: string;
+  sections: { href: string; label: string }[];
+}
+const { name, sections } = Astro.props;
+const onHome = Astro.url.pathname === '/';
+const prefix = onHome ? '#' : '/#';
+---
+
+<header class="nav" id="nav">
+  <a class="nav-logo" href="/" aria-label={`${name} home`}><i aria-hidden="true"></i><span>{name}</span></a>
+
+  <nav class="nav-links" id="navLinks" aria-label="Main">
+    {sections.map((s) => <a href={`${prefix}${s.href}`}>{s.label}</a>)}
+  </nav>
+
+  <div class="nav-end">
+    <a class="btn btn-blue nav-cta" href={`${prefix}contact`}>Hire me</a>
+    <button class="nav-toggle" id="navToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+</header>

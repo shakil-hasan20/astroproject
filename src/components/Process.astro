@@ -1,0 +1,20 @@
+---
+import type { SiteData } from '../data/fallback';
+interface Props { steps: SiteData['steps'] }
+const { steps } = Astro.props;
+---
+
+{steps.length > 0 && (
+  <section class="card" id="process">
+    <h2>How we work</h2>
+    <ol class="steps">
+      {steps.map((s, i) => (
+        <li class="step">
+          <b>{i + 1}</b>
+          <h3>{s.title}</h3>
+          <p>{s.description}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+)}

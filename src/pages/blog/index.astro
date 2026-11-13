@@ -8,7 +8,7 @@ const posts = (await getCollection('blog')).sort(
 );
 ---
 
-<BaseLayout title="Blog">
+<BaseLayout title="Blog" description="Notes on web development, Astro and what I learn along the way.">
   <h1>Blog</h1>
   <div class="grid">
     {posts.map((post) => (
@@ -17,8 +17,7 @@ const posts = (await getCollection('blog')).sort(
         description={post.data.description}
         pubDate={post.data.pubDate}
         url={`/blog/${post.id}`}
-     
- />
+      />
     ))}
   </div>
 </BaseLayout>

@@ -1,0 +1,17 @@
+---
+import type { SiteData } from '../data/fallback';
+interface Props { faqs: SiteData['faqs'] }
+const { faqs } = Astro.props;
+---
+
+{faqs.length > 0 && (
+  <section class="card faq" id="faq">
+    <h2>Frequently asked questions</h2>
+    {faqs.map((f) => (
+      <details>
+        <summary>{f.question}</summary>
+        <p>{f.answer}</p>
+      </details>
+    ))}
+  </section>
+)}

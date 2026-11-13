@@ -1,0 +1,24 @@
+---
+import { img } from '../lib/sanity';
+import type { SiteData } from '../data/fallback';
+interface Props { projects: SiteData['projects'] }
+const { projects } = Astro.props;
+---
+
+{projects.length > 0 && (
+  <section class="card" id="work">
+    <h2>Recent projects</h2>
+    <div class="proj-grid">
+      {projects.map((p) => {
+        const src = img(p.imageUrl, 1000);
+        const Tag = p.url ? 'a' : 'div';
+        return (
+          <Tag class:list={['proj', { ph: !src }]} href={p.url} target={p.url ? '_blank' : undefined} rel={p.url ? 'noopener noreferrer' : undefined} aria-label={p.url ? `${p.title} (opens in new tab)` : undefined}>
+            {src && <img src={src} alt={p.title} loading="lazy" width="1060" height="737" />}
+            <span class="ov"><span class="nm">{p.title}</span>{p.url && <span class="go" aria-hidden="true">↗</span>}</span>
+          </Tag>
+        );
+      })}
+    </div>
+  </section>
+)}

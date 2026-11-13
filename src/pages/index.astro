@@ -1,26 +1,31 @@
 ---
-
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { site } from '../data/site'
+import Sidebar from '../components/Sidebar.astro';
+import Hero from '../components/Hero.astro';
+import Stats from '../components/Stats.astro';
+import Projects from '../components/Projects.astro';
+import Services from '../components/Services.astro';
+import Process from '../components/Process.astro';
+import Testimonials from '../components/Testimonials.astro';
+import Faq from '../components/Faq.astro';
+import Contact from '../components/Contact.astro';
+import { getSiteData } from '../lib/sanity';
 
+const { settings, projects, services, steps, testimonials, faqs } = await getSiteData();
 ---
 
-<BaseLayout title="Home">
-
-	<section class="hero">
-
-		<h1>Hi, I'm {site.name} 👋</h1>
-		<p class="muted">{site.role}</p>
-		<p>{site.bio}</p>
-		{site.openToWork && <span class="tag">✅ Open to work</span>}
-
-		<ul class="socials">
-			{site.socials.map((social) => (
-  			<li><a href={social.url}>{social.label}</a></li>
-			))}
-		</ul>
-		<a href="/blog" class="btn">Read my blog</a>
-
-	</section>
-
+<BaseLayout wide>
+  <div class="wrap">
+    <Sidebar s={settings} />
+    <main class="main">
+      <Hero s={settings} />
+      <Stats stats={settings.stats} />
+      <Projects projects={projects} />
+      <Services services={services} highlight={settings.highlight} />
+      <Process steps={steps} />
+      <Testimonials items={testimonials} profiles={settings.profiles} />
+      <Faq faqs={faqs} />
+      <Contact s={settings} />
+    </main>
+  </div>
 </BaseLayout>
