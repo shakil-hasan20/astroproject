@@ -1,0 +1,45 @@
+---
+import type { SiteData, Settings } from '../data/fallback';
+interface Props { services: SiteData['services']; highlight?: Settings['highlight'] }
+const { services, highlight } = Astro.props;
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+
+{services.length > 0 && (
+  <section class="card" id="services">
+    <h2>Services</h2>
+    <div class="svc-grid">
+      {services.map((s, i) => (
+        <article class="svc">
+          <i>{pad(i + 1)}</i>
+          <h3>{s.title}</h3>
+          <p>{s.description}</p>
+        </article>
+      ))}
+    </div>
+    <p class="more">Not sure what fits? <a href="#contact">Tell me about your project →</a></p>
+  </section>
+)}
+
+{highlight?.title && (
+  <section class="card ai" id="highlight">
+    <div class="ai-head">
+      {highlight.label && <span class="ai-pill">✦ {highlight.label}</span>}
+      <h2>{highlight.title}</h2>
+      {highlight.text && <p>{highlight.text}</p>}
+    </div>
+    {(highlight.items?.length ?? 0) > 0 && (
+      <div class="svc-grid">
+        {highlight.items.map((it) => (
+          <article class="svc">
+            <h3>{it.title}</h3>
+            <p>{it.description}</p>
+          </article>
+        ))}
+      </div>
+    )}
+    {(highlight.tags?.length ?? 0) > 0 && (
+      <ul class="ai-tags">{highlight.tags.map((t) => <li>{t}</li>)}</ul>
+    )}
+  </section>
+)}

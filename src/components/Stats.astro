@@ -1,0 +1,19 @@
+---
+import type { Settings } from '../data/fallback';
+interface Props { stats: Settings['stats'] }
+const { stats } = Astro.props;
+---
+
+{stats.length > 0 && (
+  <div class="card stats">
+    {stats.map((st) => {
+      const dec = st.decimals ?? 0;
+      return (
+        <div class="stat">
+          <b data-to={st.value} data-dec={dec} data-suf={st.suffix ?? ''}>{st.value.toFixed(dec)}{st.suffix ?? ''}</b>
+          <span>{st.label}</span>
+        </div>
+      );
+    })}
+  </div>
+)}

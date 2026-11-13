@@ -1,20 +1,16 @@
 ---
-
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { site } from '../data/site';
+import { getSiteData } from '../lib/sanity';
 
-const skills = ['HTML', 'CSS', 'JavaScript', /* ... */];
+const { settings } = await getSiteData();
 ---
 
-<BaseLayout title="About">
-
-    <h1>About me</h1>
-    <p>{site.bio}</p>
-    <h2>Skills</h2>
-    <div class="tags">
-        {skills.map((skill) => <span class="tag">{skill}</span>)}
-    </div>
-    
-
+<BaseLayout title="About" description={settings.bio}>
+  <h1>About me</h1>
+  <p>{settings.bio}</p>
+  <h2>Skills</h2>
+  <div class="tags">
+    {settings.tools.map((skill) => <span class="tag">{skill}</span>)}
+  </div>
+  <a href="/#contact" class="btn">Work with me</a>
 </BaseLayout>
-
